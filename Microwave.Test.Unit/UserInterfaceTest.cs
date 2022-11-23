@@ -335,6 +335,27 @@ namespace Microwave.Test.Unit
             light.Received(1).TurnOff();
         }
 
+        [TestCase(1000000)]
+        [TestCase(50)]
+        [TestCase(1000)]
+        [TestCase(700)]
+        public void Ready_FullPowerWithDifferentMaxPower_CookerIsCalledCorrectly(int maxPower)
+        {
+            for (int i = 50; i <= maxPower; i += 50)
+            {
+                powerButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            }
+
+            timeButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            // Now in SetTime
+
+            // Should call with correct values
+            startCancelButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+
+            cooker.Received(1).StartCooking(maxPower, 60);
+
+        }
+
 
     }
 
