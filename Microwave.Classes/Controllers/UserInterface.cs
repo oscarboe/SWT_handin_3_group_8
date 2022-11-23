@@ -40,6 +40,10 @@ namespace Microwave.Classes.Controllers
             myCooker = cooker;
             myLight = light;
             myDisplay = display;
+
+
+            if (maxPowerLevel < 50 || maxPowerLevel > 1000000)
+                throw new ArgumentOutOfRangeException("UserInterface constructor", "Max power must be between 50 and 1000000 W");
             _maxPowerLevel = maxPowerLevel;
         }
 

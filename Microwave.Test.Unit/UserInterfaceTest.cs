@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Microwave.Classes.Boundary;
 using Microwave.Classes.Controllers;
 using Microwave.Classes.Interfaces;
@@ -367,6 +368,17 @@ namespace Microwave.Test.Unit
 
         }
 
+        [TestCase(1000001)]
+        [TestCase(49)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(-500)]
+        
+        public void Ready_FullPowerWithHigherMaxPower_Exceptionthrown(int maxPowerInTest)
+        {
+            Assert.That(() => new UserInterface(powerButton, timeButton, startCancelButton, door, display, light, cooker, maxPowerInTest), 
+                Throws.TypeOf<System.ArgumentOutOfRangeException>());
+        }
 
     }
 
