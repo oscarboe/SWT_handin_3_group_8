@@ -58,7 +58,7 @@ namespace Microwave.Classes.Controllers
                     myState = States.SETPOWER;
                     break;
                 case States.SETPOWER:
-                    powerLevel = (powerLevel >= _maxPowerLevel ? 50 : powerLevel+50);
+                    powerLevel = (powerLevel >= 700 ? 50 : powerLevel+50);
                     myDisplay.ShowPower(powerLevel);
                     break;
             }
