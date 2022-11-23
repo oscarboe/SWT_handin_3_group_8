@@ -17,6 +17,8 @@ namespace Microwave.App
 
             Output output = new Output();
 
+            Beep beep = new Beep(output);
+
             Display display = new Display(output);
 
             PowerTube powerTube = new PowerTube(output);
@@ -46,6 +48,8 @@ namespace Microwave.App
             // Wait for input
 
             System.Console.ReadLine();
+
+            beep.PlayBeep();
         }
     }
 }
