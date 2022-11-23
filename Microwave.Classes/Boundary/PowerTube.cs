@@ -13,10 +13,10 @@ namespace Microwave.Classes.Boundary
         {
             myOutput = output;
 
-            if (maxPower < 50)
-                throw new ArgumentOutOfRangeException("PowerTube constructor", "Max power must be over 50");
-            
-                _maxPower = maxPower;
+            if (maxPower < 50 || maxPower > 1000000)
+                throw new ArgumentOutOfRangeException("PowerTube constructor", "Max power must be between 50 and 1000000 W");
+
+            _maxPower = maxPower;
         }
         
 
