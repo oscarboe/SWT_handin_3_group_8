@@ -1,4 +1,5 @@
 ﻿using System;
+using Microwave.Classes.Boundary;
 using Microwave.Classes.Controllers;
 using Microwave.Classes.Interfaces;
 using NSubstitute;
@@ -336,12 +337,22 @@ namespace Microwave.Test.Unit
         }
 
         [TestCase(1000000)]
-        [TestCase(50)]
         [TestCase(1000)]
+        [TestCase(2000)]
+        [TestCase(2000)]
+        [TestCase(50)]
         [TestCase(700)]
-        public void Ready_FullPowerWithDifferentMaxPower_CookerIsCalledCorrectly(int maxPower)
+
+        public void Ready_FullPowerWithHigherMaxPower_CookerIsCalledCorrectly(int maxPowerInTest)
         {
-            for (int i = 50; i <= maxPower; i += 50)
+            uut = new UserInterface(
+                powerButton, timeButton, startCancelButton,
+                door,
+                display,
+                light,
+                cooker, maxPowerInTest);
+
+            for (int i = 50; i <= maxPowerInTest ; i += 50)
             {
                 powerButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
             }
@@ -352,7 +363,7 @@ namespace Microwave.Test.Unit
             // Should call with correct values
             startCancelButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
 
-            cooker.Received(1).StartCooking(maxPower, 60);
+            cooker.Received().StartCooking(maxPowerInTest, 60);
 
         }
 
