@@ -24,9 +24,11 @@ namespace Microwave.App
 
             Light light = new Light(output);
 
+            Beep beep = new Beep(output);
+
             Microwave.Classes.Boundary.Timer timer = new Timer();
 
-            CookController cooker = new CookController(timer, display, powerTube);
+            CookController cooker = new CookController(timer, display, powerTube, beep);
 
             UserInterface ui = new UserInterface(powerButton, timeButton, startCancelButton, door, display, light, cooker, maxPowerInWatt);
 
@@ -47,6 +49,8 @@ namespace Microwave.App
             // Wait for input
 
             System.Console.ReadLine();
+
+            
         }
     }
 }
