@@ -6,19 +6,25 @@ namespace Microwave.Classes.Boundary
     public class PowerTube : IPowerTube
     {
         private IOutput myOutput;
-
+        private int _maxPower;
         private bool IsOn = false;
 
-        public PowerTube(IOutput output)
+        public PowerTube(IOutput output, int maxPower)
         {
             myOutput = output;
+
+            if (maxPower < 50 || maxPower > 1000000)
+                throw new ArgumentOutOfRangeException("PowerTube constructor", "Max power must be between 50 and 1000000 W");
+
+            _maxPower = maxPower;
         }
+        
 
         public void TurnOn(int power)
         {
-            if (power < 1 || 700 < power)
+            if (power < 1 || _maxPower < power)
             {
-                throw new ArgumentOutOfRangeException("power", power, "Must be between 1 and 700 (incl.)");
+                throw new ArgumentOutOfRangeException("power", power, $"Must be between 1 and {_maxPower} (incl.)");
             }
 
             if (IsOn)
