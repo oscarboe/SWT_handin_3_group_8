@@ -335,6 +335,21 @@ namespace Microwave.Test.Unit
             light.Received(1).TurnOff();
         }
 
+        [Test]
+        public void ChangeTimeWhileCooking_TimeButton_CookerIsCalled()
+        {
+            powerButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            // Now in SetPower
+            timeButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            // Now in SetTime
+            startCancelButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            // Now adds time
+            timeButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            //
+            cooker.Received(1).ChangeTimeWhileCooking();
+            cooker.Received(1).StartCooking(50, 90);
+
+        }
 
     }
 

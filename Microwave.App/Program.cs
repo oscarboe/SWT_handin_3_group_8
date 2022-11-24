@@ -39,6 +39,13 @@ namespace Microwave.App
             timeButton.Press();
 
             startCancelButton.Press();
+            
+            //Sleep 10 seconds before adding 30 sec
+
+            System.Threading.Thread.Sleep(10000);
+            
+            //Time added 30 sec
+            
             timeButton.Press();
 
             // The simple sequence should now run
