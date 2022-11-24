@@ -39,6 +39,7 @@ namespace Microwave.App
             timeButton.Press();
 
             startCancelButton.Press();
+            timeButton.Press();
 
             // The simple sequence should now run
 
@@ -46,6 +47,7 @@ namespace Microwave.App
             // Wait for input
 
             System.Console.ReadLine();
+            
         }
     }
 }
