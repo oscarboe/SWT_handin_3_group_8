@@ -27,6 +27,13 @@ namespace Microwave.Test.Unit
         [SetUp]
         public void Setup()
         {
+            uut = CreateUut(700);
+        }
+
+      
+
+        public UserInterface CreateUut(int maxPower)
+        {
             powerButton = Substitute.For<IButton>();
             timeButton = Substitute.For<IButton>();
             startCancelButton = Substitute.For<IButton>();
@@ -40,7 +47,8 @@ namespace Microwave.Test.Unit
                 door,
                 display,
                 light,
-                cooker, 700);
+                cooker, maxPower);
+            return uut;
         }
 
         [Test]
@@ -346,12 +354,7 @@ namespace Microwave.Test.Unit
 
         public void Ready_FullPowerWithHigherMaxPower_CookerIsCalledCorrectly(int maxPowerInTest)
         {
-            uut = new UserInterface(
-                powerButton, timeButton, startCancelButton,
-                door,
-                display,
-                light,
-                cooker, maxPowerInTest);
+            uut = CreateUut(maxPowerInTest);
 
             for (int i = 50; i <= maxPowerInTest ; i += 50)
             {
@@ -364,7 +367,7 @@ namespace Microwave.Test.Unit
             // Should call with correct values
             startCancelButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
 
-            cooker.Received().StartCooking(maxPowerInTest, 60);
+            cooker.Received(1).StartCooking(maxPowerInTest, 60);
 
         }
 
