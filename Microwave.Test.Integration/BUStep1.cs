@@ -27,7 +27,7 @@ namespace Microwave.Test.Integration
 
             timer = new Timer();
             display = new Display(output);
-            beep = new Beep(output)
+            beep = new Beep(output);
             powerTube = new PowerTube(output, 700);
 
             ui = Substitute.For<IUserInterface>();
