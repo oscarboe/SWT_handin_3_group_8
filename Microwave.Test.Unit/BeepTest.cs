@@ -35,5 +35,7 @@ namespace Microwave.Test.Unit
             uut.PlayBeep();
             output.Received().OutputLine(Arg.Is<string>(str => str.Contains("Beep sound has been fired. Now waiting 3 seconds.")));
         }
+
+ 
     }
 }

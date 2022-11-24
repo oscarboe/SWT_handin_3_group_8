@@ -18,18 +18,18 @@ namespace Microwave.Classes.Controllers
 
         private bool isCooking = false;
 
-        static Output output = new Output();
-        Beep beep = new Beep(output);
 
         private IDisplay myDisplay;
         private IPowerTube myPowerTube;
         private ITimer myTimer;
+        private IBeep myBeep;
 
         public CookController(
             ITimer timer,
             IDisplay display,
             IPowerTube powerTube,
-            IUserInterface ui) : this(timer, display, powerTube)
+            IBeep Beep,
+            IUserInterface ui) : this(timer, display, powerTube, Beep)
         {
             UI = ui;
         }
@@ -37,13 +37,15 @@ namespace Microwave.Classes.Controllers
         public CookController(
             ITimer timer,
             IDisplay display,
-            IPowerTube powerTube)
+            IPowerTube powerTube,
+            IBeep Beep)
         {
             myTimer = timer;
             myDisplay = display;
             myPowerTube = powerTube;
+            myBeep = Beep;
 
-
+            
 
             timer.Expired += new EventHandler(OnTimerExpired);
             timer.TimerTick += new EventHandler(OnTimerTick);
@@ -71,7 +73,7 @@ namespace Microwave.Classes.Controllers
                 isCooking = false;
                 myPowerTube.TurnOff();
                 UI.CookingIsDone();
-                beep.PlayBeep();
+                myBeep.PlayBeep();
             }
         }
 
