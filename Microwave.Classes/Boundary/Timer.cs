@@ -1,8 +1,6 @@
 ﻿using System;
 using Microwave.Classes.Interfaces;
 
-//Magnus skal add feature "change time while cooking" 
-
 namespace Microwave.Classes.Boundary
 {
     public class Timer : ITimer
