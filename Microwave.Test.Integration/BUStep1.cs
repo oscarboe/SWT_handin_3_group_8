@@ -27,8 +27,9 @@ namespace Microwave.Test.Integration
 
             timer = new Timer();
             display = new Display(output);
-            powerTube = new PowerTube(output);
-            beep = new Beep(output);
+            beep = new Beep(output)
+            powerTube = new PowerTube(output, 700);
+
             ui = Substitute.For<IUserInterface>();
 
             cooker = new CookController(timer, display, powerTube, beep, ui);
