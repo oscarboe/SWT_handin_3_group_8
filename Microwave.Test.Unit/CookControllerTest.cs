@@ -87,6 +87,15 @@ namespace Microwave.Test.Unit
         }
 
         [Test]
+        public void ChangeTimeWhileCooking_Pressed()
+        {
+            uut.StartCooking(100, 25);
+            timer.TimeRemaining.Returns(55);
+            uut.ChangeTimeWhileCooking();
+            timer.Received(1).Start(85);
+        }
+
+        [Test]
         public void Cooking_TimerExpired_BeepCalled()
         {
             uut.StartCooking(50, 60);
@@ -95,6 +104,7 @@ namespace Microwave.Test.Unit
 
             Beep.Received(1).PlayBeep();
         }
+
 
 
     }
