@@ -1,4 +1,5 @@
 ﻿using System;
+using Microwave.Classes.Boundary;
 using Microwave.Classes.Controllers;
 using Microwave.Classes.Interfaces;
 using NSubstitute;
@@ -15,6 +16,7 @@ namespace Microwave.Test.Unit
         private ITimer timer;
         private IDisplay display;
         private IPowerTube powerTube;
+        private IBeep Beep;
 
         [SetUp]
         public void Setup()
@@ -23,8 +25,9 @@ namespace Microwave.Test.Unit
             timer = Substitute.For<ITimer>();
             display = Substitute.For<IDisplay>();
             powerTube = Substitute.For<IPowerTube>();
+            Beep = Substitute.For<IBeep>();
 
-            uut = new CookController(timer, display, powerTube, ui);
+            uut = new CookController(timer, display, powerTube, Beep, ui);
         }
 
         [Test]
@@ -91,6 +94,18 @@ namespace Microwave.Test.Unit
             uut.ChangeTimeWhileCooking();
             timer.Received(1).Start(85);
         }
+
+        [Test]
+        public void Cooking_TimerExpired_BeepCalled()
+        {
+            uut.StartCooking(50, 60);
+
+            timer.Expired += Raise.EventWith(this, EventArgs.Empty);
+
+            Beep.Received(1).PlayBeep();
+        }
+
+
 
     }
 }

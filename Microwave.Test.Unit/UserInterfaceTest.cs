@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
+using Microwave.Classes.Boundary;
 using Microwave.Classes.Controllers;
 using Microwave.Classes.Interfaces;
 using NSubstitute;
@@ -25,6 +27,13 @@ namespace Microwave.Test.Unit
         [SetUp]
         public void Setup()
         {
+            uut = CreateUut(700);
+        }
+
+      
+
+        public UserInterface CreateUut(int maxPower)
+        {
             powerButton = Substitute.For<IButton>();
             timeButton = Substitute.For<IButton>();
             startCancelButton = Substitute.For<IButton>();
@@ -38,7 +47,8 @@ namespace Microwave.Test.Unit
                 door,
                 display,
                 light,
-                cooker);
+                cooker, maxPower);
+            return uut;
         }
 
         [Test]
@@ -347,6 +357,45 @@ namespace Microwave.Test.Unit
             timeButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
             //
             cooker.Received(1).ChangeTimeWhileCooking();
+
+        }
+
+        [TestCase(1000000)]
+        [TestCase(1000)]
+        [TestCase(2000)]
+        [TestCase(2000)]
+        [TestCase(50)]
+        [TestCase(700)]
+
+        public void Ready_FullPowerWithHigherMaxPower_CookerIsCalledCorrectly(int maxPowerInTest)
+        {
+            uut = CreateUut(maxPowerInTest);
+
+            for (int i = 50; i <= maxPowerInTest ; i += 50)
+            {
+                powerButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            }
+
+            timeButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+            // Now in SetTime
+
+            // Should call with correct values
+            startCancelButton.Pressed += Raise.EventWith(this, EventArgs.Empty);
+
+            cooker.Received(1).StartCooking(maxPowerInTest, 60);
+
+        }
+
+        [TestCase(1000001)]
+        [TestCase(49)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(-500)]
+        
+        public void Ready_FullPowerWithHigherMaxPower_Exceptionthrown(int maxPowerInTest)
+        {
+            Assert.That(() => new UserInterface(powerButton, timeButton, startCancelButton, door, display, light, cooker, maxPowerInTest), 
+                Throws.TypeOf<System.ArgumentOutOfRangeException>());
         }
 
     }

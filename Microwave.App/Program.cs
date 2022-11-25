@@ -9,6 +9,7 @@ namespace Microwave.App
         //Comment added to test webhook
         static void Main(string[] args)
         {
+            int maxPowerInWatt = 1000;
             Button startCancelButton = new Button();
             Button powerButton = new Button();
             Button timeButton = new Button();
@@ -19,15 +20,17 @@ namespace Microwave.App
 
             Display display = new Display(output);
 
-            PowerTube powerTube = new PowerTube(output);
+            PowerTube powerTube = new PowerTube(output, maxPowerInWatt);
 
             Light light = new Light(output);
 
+            Beep beep = new Beep(output);
+
             Microwave.Classes.Boundary.Timer timer = new Timer();
 
-            CookController cooker = new CookController(timer, display, powerTube);
+            CookController cooker = new CookController(timer, display, powerTube, beep);
 
-            UserInterface ui = new UserInterface(powerButton, timeButton, startCancelButton, door, display, light, cooker);
+            UserInterface ui = new UserInterface(powerButton, timeButton, startCancelButton, door, display, light, cooker, maxPowerInWatt);
 
             // Finish the double association
             cooker.UI = ui;

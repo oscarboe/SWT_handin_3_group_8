@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Microwave.Classes.Interfaces;
+using Microwave.Classes.Boundary;
+
 
 namespace Microwave.Classes.Controllers
 {
@@ -11,15 +18,18 @@ namespace Microwave.Classes.Controllers
 
         private bool isCooking = false;
 
+
         private IDisplay myDisplay;
         private IPowerTube myPowerTube;
         private ITimer myTimer;
+        private IBeep myBeep;
 
         public CookController(
             ITimer timer,
             IDisplay display,
             IPowerTube powerTube,
-            IUserInterface ui) : this(timer, display, powerTube)
+            IBeep Beep,
+            IUserInterface ui) : this(timer, display, powerTube, Beep)
         {
             UI = ui;
         }
@@ -27,11 +37,15 @@ namespace Microwave.Classes.Controllers
         public CookController(
             ITimer timer,
             IDisplay display,
-            IPowerTube powerTube)
+            IPowerTube powerTube,
+            IBeep Beep)
         {
             myTimer = timer;
             myDisplay = display;
             myPowerTube = powerTube;
+            myBeep = Beep;
+
+            
 
             timer.Expired += new EventHandler(OnTimerExpired);
             timer.TimerTick += new EventHandler(OnTimerTick);
@@ -49,6 +63,7 @@ namespace Microwave.Classes.Controllers
             isCooking = false;
             myPowerTube.TurnOff();
             myTimer.Stop();
+            
         }
 
         public void OnTimerExpired(object sender, EventArgs e)
@@ -58,6 +73,7 @@ namespace Microwave.Classes.Controllers
                 isCooking = false;
                 myPowerTube.TurnOff();
                 UI.CookingIsDone();
+                myBeep.PlayBeep();
             }
         }
 
