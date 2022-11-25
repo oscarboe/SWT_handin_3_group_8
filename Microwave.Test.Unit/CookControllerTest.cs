@@ -90,9 +90,9 @@ namespace Microwave.Test.Unit
         public void ChangeTimeWhileCooking_Pressed()
         {
             uut.StartCooking(100, 25);
-            timer.TimeRemaining.Returns(55);
+            timer.TimeRemaining.Returns(25);
             uut.ChangeTimeWhileCooking();
-            timer.Received(1).Start(85);
+            timer.Received(1).Start(55);
         }
 
         [Test]
