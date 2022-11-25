@@ -36,8 +36,13 @@ namespace Microwave.App
             cooker.UI = ui;
 
             // Simulate a simple sequence
+            
+            //get the power to 1000 to showcase maxpower
+            for (int i = 0; i < 20; i++)
+            {
+                powerButton.Press();
 
-            powerButton.Press();
+            }
 
             timeButton.Press();
 
