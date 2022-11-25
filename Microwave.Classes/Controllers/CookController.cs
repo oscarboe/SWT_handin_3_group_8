@@ -92,7 +92,7 @@ namespace Microwave.Classes.Controllers
             {
                 int remaining = myTimer.TimeRemaining;
                 remaining += 30;
-                myTimer.Start(remaining);
+                myDisplay.ShowTime(remaining/ 60, remaining % 60);
             }
         }
     }
