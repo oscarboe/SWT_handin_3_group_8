@@ -91,5 +91,6 @@ namespace Microwave.Test.Unit
             uut.ChangeTimeWhileCooking();
             timer.Received(1).Start(85);
         }
+
     }
 }
